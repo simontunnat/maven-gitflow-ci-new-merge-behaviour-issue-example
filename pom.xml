@@ -27,7 +27,7 @@
   </developers>
 
   <properties>
-    <revision>1.0-SNAPSHOT</revision>
+    <revision>1.1-SNAPSHOT</revision>
 
     <!-- maven -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
