@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - release/*
+    tags:
+      - v*
+  pull_request:
+    branches:
+      - develop
+      - release/*
+
+jobs:
+  build:
+    name: Build with JDK ${{ matrix.jdk }}
+    strategy:
+      matrix:
+        jdk: [8, 11, 16]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cache Maven Repository
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: maven-repository-${{ runner.os }}
+          restore-keys: |
+            maven-repository-
+
+      - name: Set up JDK ${{ matrix.jdk }}
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: ${{ matrix.jdk }}
+
+      - name: Build and run Tests
+        run: mvn -B clean verify
